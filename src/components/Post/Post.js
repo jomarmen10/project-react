@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-
+import {Link} from 'react-router-dom'
 import './Post.css';
 
 class Post extends Component {
-
-
 
   render() {
     const { pics } = this.props
@@ -18,7 +16,9 @@ class Post extends Component {
                   <img src={ p.user.profile_image.small} alt="Chris" />
                 </div>
                 <div className="Post-user-nickname">
+                <Link to={`/users/${p.user.username}`}>
                   <span>{p.user.username}</span>
+                </Link>
                 </div>
               </div>
             </header>
@@ -28,8 +28,9 @@ class Post extends Component {
               </div>
             </div>
             <div className="Post-caption">
-
-              <strong>{p.user.username}</strong>
+              <Link to={`/users/${p.user.username}`}>
+                <strong>{p.user.username}</strong>
+              </Link>
               {
                 p.description
                   ? p.description

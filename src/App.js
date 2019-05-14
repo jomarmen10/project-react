@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import {Switch, Route} from 'react-router-dom'
+
 import Header from './components/Header/Header';
 import Post from './components/Post/Post'
+import Profile from './components/Profile/Profile'
+import * as routes from "./constant/routes"
 
 import './App.css';
 
@@ -9,20 +13,20 @@ class App extends Component {
 
   state = {
     pics: [],
-    searchPic: 'dog'
+    searchPic: 'dogs'
   }
 
   componentDidMount(){
     this.getPics().then(res => {
       console.log(res)
-      return this.setState({pics: res.results})
+      return this.setState({pics: res})
     })
   }
-  //
+
   // componentWillUpdate(){
   //   this.getPics().then(res => {
   //     console.log(res)
-  //     return this.setState({pics: res.results})
+  //     return this.setState({pics: res})
   //   })
   // }
 
@@ -43,10 +47,9 @@ class App extends Component {
 
   getPics = async() => {
     try {
-      // const data = await fetch(this.apiHandler(this.state.searchPic))
-      const data = await fetch(`https://api.unsplash.com/search/photos/?client_id=c60d9f090454d76d4344e50db930e0024b8b2268508a997cbd4595e916131e35&query=${this.state.searchPic}&per_page=30`)
+      const data = await fetch(this.apiHandler(this.state.searchPic))
       const pics = await data.json()
-      return pics;
+      return pics.results ? pics.results : pics;
     }catch(err){
       return err
     }
@@ -56,9 +59,11 @@ class App extends Component {
     return (
       <div>
         <Header searchPic={this.searchUpdate}/>
-        <div>
-        <Post pics={this.state.pics}/>
-        </div>
+        <Switch>
+
+            <Route exact path={routes.HOME} render={()=> <Post pics={this.state.pics}/>} />
+            <Route exact path={'/users/:id'} render={()=> <Profile />} />
+        </Switch>
       </div>
     );
   }
