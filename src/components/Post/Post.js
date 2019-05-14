@@ -28,6 +28,7 @@ class Post extends Component {
               </div>
             </div>
             <div className="Post-caption">
+
               <strong>{p.user.username}</strong>
               {
                 p.description
