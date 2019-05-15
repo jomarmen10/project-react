@@ -4,6 +4,7 @@ import {Switch, Route} from 'react-router-dom'
 import Header from './components/Header/Header';
 import Post from './components/Post/Post'
 import Profile from './components/Profile/Profile'
+import Register from './components/Register/Register'
 import * as routes from "./constant/routes"
 
 import './App.css';
@@ -79,6 +80,7 @@ class App extends Component {
 
             <Route exact path={routes.HOME} render={()=> <Post pics={this.state.pics}/>} />
             <Route exact path={'/users/:id'} render={()=> <Profile />} />
+            <Route exact patch={routes.REGISTER} render={()=> <Register currentUser={this.state.currentUser}/>}/>
         </Switch>
       </div>
     );
