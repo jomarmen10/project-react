@@ -23,12 +23,12 @@ class App extends Component {
     })
   }
 
-  // componentWillUpdate(){
-  //   this.getPics().then(res => {
-  //     console.log(res)
-  //     return this.setState({pics: res})
-  //   })
-  // }
+  componentWillUpdate(){
+    this.getPics().then(res => {
+      console.log(res)
+      return this.setState({pics: res})
+    })
+  }
 
 
   apiHandler = (str) => {
