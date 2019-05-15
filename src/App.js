@@ -12,6 +12,7 @@ import './App.css';
 class App extends Component {
 
   state = {
+    currentUser: null,
     pics: [],
     searchPic: 'dogs'
   }
@@ -23,14 +24,6 @@ class App extends Component {
     })
   }
 
-  componentWillUpdate(){
-    this.getPics().then(res => {
-      console.log(res)
-      return this.setState({pics: res})
-    })
-  }
-
-
   apiHandler = (str) => {
     if(!str){
       return `https://api.unsplash.com/photos/random/?client_id=c60d9f090454d76d4344e50db930e0024b8b2268508a997cbd4595e916131e35&count=30`
@@ -39,10 +32,33 @@ class App extends Component {
     }
   }
 
-  searchUpdate = (val) => {
-    this.setState({
-      searchPic: val
-    })
+  register = async(info) => {
+    try{
+      const registeredUser = await fetch('/users/create', {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(info),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const newUser = await registeredUser.json();
+
+    }catch(err){
+      return err
+    }
+  }
+
+
+
+  searchUpdate = async(val) => {
+    try{
+      await this.setState({searchPic: val})
+      const res = await this.getPics();
+      return this.setState({pics: res})
+    }catch(err){
+      return err
+    }
   }
 
   getPics = async() => {
