@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 import Header from './components/Header/Header';
 import Post from './components/Post/Post'
 import Profile from './components/Profile/Profile'
 import Register from './components/Register/Register'
+import Login from './components/Login/Login'
+import Edit from './components/Edit/Edit'
+
+
 import * as routes from "./constant/routes"
 
 import './App.css';
@@ -14,22 +18,43 @@ class App extends Component {
 
   state = {
     currentUser: null,
+    logged:false,
     pics: [],
-    searchPic: 'dogs'
+    searchPic: ''
   }
 
   componentDidMount(){
     this.getPics().then(res => {
-      console.log(res)
       return this.setState({pics: res})
     })
   }
 
   apiHandler = (str) => {
     if(!str){
-      return `https://api.unsplash.com/photos/random/?client_id=c60d9f090454d76d4344e50db930e0024b8b2268508a997cbd4595e916131e35&count=30`
+      return `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_KEY}&count=30`
     } else {
-      return `https://api.unsplash.com/search/photos/?client_id=c60d9f090454d76d4344e50db930e0024b8b2268508a997cbd4595e916131e35&query=${this.state.searchPic}&per_page=30`
+      return `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_KEY}&query=${this.state.searchPic}&per_page=30`
+    }
+  }
+
+  update = async(info) => {
+    try{
+      const updateUser = await fetch(`/users/${this.state.currentUser._id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify(info),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const updatedUser = await updateUser.json();
+      if(updateUser.success){
+        this.setState({
+          currentUser: updatedUser.user
+        })
+      }
+    }catch(err){
+      return err
     }
   }
 
@@ -44,13 +69,41 @@ class App extends Component {
         }
       })
       const newUser = await registeredUser.json();
+      if(newUser.success){
+        this.setState({
+          currentUser: newUser.user,
+          logged: true
+        })
+      }
 
     }catch(err){
       return err
     }
   }
 
+  login = async(info) => {
 
+    try{
+      const loginUser = await fetch('/users/login', {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(info),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const logUser = await loginUser.json();
+      if(logUser.success){
+        this.setState({
+          currentUser: logUser.user,
+          logged: true
+        })
+      }
+
+    }catch(err){
+      return err
+    }
+  }
 
   searchUpdate = async(val) => {
     try{
@@ -72,15 +125,27 @@ class App extends Component {
     }
   }
 
+  delete = async() => {
+    try{
+      const deleteUser = await fetch('/users/delete', {
+        method: "DELETE"
+      })
+      return  <Redirect to={`/login`}/>
+    }catch(err){
+      return err
+    }
+  }
+
   render() {
     return (
       <div>
-        <Header searchPic={this.searchUpdate}/>
+        <Header isLogged={this.state.logged} searchUpdate={this.searchUpdate}/>
         <Switch>
-
-            <Route exact path={routes.HOME} render={()=> <Post pics={this.state.pics}/>} />
-            <Route exact path={'/users/:id'} render={()=> <Profile />} />
-            <Route exact patch={routes.REGISTER} render={()=> <Register currentUser={this.state.currentUser}/>}/>
+          <Route exact path={routes.PROFILE} render={()=> <Profile currentUser={this.state.currentUser} isLogged={this.state.logged}/>} />
+          <Route exact path={'/edit/:id'} render={()=> <Edit currentUser={this.state.currentUser} update={this.update} delete={this.delete}/>}/>
+          <Route exact path={'/login'} render={()=><Login login={this.login} currentUser={this.state.currentUser} isLogged={this.state.logged}/>}/>
+          <Route exact path={routes.FEED} render={()=> <Post pics={this.state.pics}/>} />
+          <Route exact path={routes.REGISTER} render={()=> <Register currentUser={this.state.currentUser} register={this.register} isLogged={this.state.logged}/>}/>
         </Switch>
       </div>
     );

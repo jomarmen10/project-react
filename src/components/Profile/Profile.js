@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
+import Edit from '../Edit/Edit'
 
 import './Profile.css'
 
@@ -11,18 +12,13 @@ class Profile extends Component {
 
   componentDidMount() {
     this.getProfile().then(res => {
-      console.log(res)
       return this.setState({user: res})
     })
-    //fecth the data from instagram
-
-    //get the id from the params e.g. this.props.params.match.id
-    //after you get the data setState e.g. User
   }
 
   getProfile = async() => {
     try{
-      const data = await fetch(`https://api.unsplash.com/users/${this.props.match.params.id}?client_id=c60d9f090454d76d4344e50db930e0024b8b2268508a997cbd4595e916131e35`)
+      const data = await fetch(`https://api.unsplash.com/users/${this.props.match.params.id}?client_id=${process.env.REACT_APP_KEY}`)
       const profile = data.json()
       return profile
     }catch(err){
@@ -31,22 +27,27 @@ class Profile extends Component {
   }
 
   render(){
-    const {username, photos, profile_image, followers_count, following_count, bio } = this.state.user
+    const {username, photos, profile_image, followers_count, following_count, bio, id } = this.state.user
     console.log(bio)
 
     return(
 
       <div >
 
-        <div class='container'>
-          <div class='profile'>
-            <div class="profile-image">
+        <div className='container'>
+          <div className='profile'>
+            <div className="profile-image">
               {profile_image ? <img src={profile_image.large}></img> : null}
             </div>
-            <div class="profile-username">
+            <div className="profile-username">
               <h4>{username}</h4>
-            </div>
-            <div class='profile-stats'>
+              {
+                this.props.isLogged && (!id)
+                  ? <Link to={`/edit/${this.props.currentUser._id}`} render={()=><Edit />}>EDIT</Link>
+                  : null
+              }
+                    </div>
+            <div className='profile-stats'>
               <ul>
                 <li>
                   {following_count} following
@@ -56,7 +57,7 @@ class Profile extends Component {
                 </li>
               </ul>
             </div>
-            <div class='profile-bio'>
+            <div className='profile-bio'>
               <p>{bio}</p>
             </div>
           </div>
@@ -64,13 +65,13 @@ class Profile extends Component {
 
 
 
-        <div class='container'>
-          <div class='gallery'>
+        <div className='container'>
+          <div className='gallery'>
             {
               photos
                 ? photos.map((p,i) =>
-                  <div class='gallery-item'>
-                    <img class='gallery-image' key={i} src={p.urls.small}></img>
+                  <div className='gallery-item'>
+                    <img className='gallery-image' key={i} src={p.urls.small}></img>
                   </div>
                 )
                 : null
