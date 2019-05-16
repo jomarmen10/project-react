@@ -7,7 +7,8 @@ import Profile from './components/Profile/Profile'
 import Register from './components/Register/Register'
 import Login from './components/Login/Login'
 import Edit from './components/Edit/Edit'
-
+import dotenv from 'dotenv'
+dotenv.config()
 
 import * as routes from "./constant/routes"
 
