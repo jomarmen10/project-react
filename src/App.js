@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom'
+import {Switch, Route, withRouter} from 'react-router-dom'
 
 import Header from './components/Header/Header';
 import Post from './components/Post/Post'
@@ -23,17 +23,33 @@ class App extends Component {
     searchPic: ''
   }
 
-  componentDidMount(){
-    this.getPics().then(res => {
-      return this.setState({pics: res})
-    })
-  }
+  // componentDidMount(){
+  //   this.getPics().then(res => {
+  //     return this.setState({pics: res})
+  //   })
+  // }
 
   apiHandler = (str) => {
     if(!str){
       return `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_KEY}&count=30`
     } else {
       return `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_KEY}&query=${this.state.searchPic}&per_page=30`
+    }
+  }
+
+  delUser = async () => {
+    console.log('hello')
+    try{
+      const deleteUser = await fetch(`/users/delete/${this.state.currentUser._id}`, {
+        method: "DELETE"
+      })
+      this.setState({
+        logged: false,
+        currentUser: null
+      })
+      this.props.history.push('/')
+    }catch(err){
+      return err
     }
   }
 
@@ -51,8 +67,10 @@ class App extends Component {
       if(updateUser.success){
         this.setState({
           currentUser: updatedUser.user
+
         })
       }
+      this.props.history.push('/')
     }catch(err){
       return err
     }
@@ -125,16 +143,7 @@ class App extends Component {
     }
   }
 
-  delete = async() => {
-    try{
-      const deleteUser = await fetch('/users/delete', {
-        method: "DELETE"
-      })
-      return  <Redirect to={`/login`}/>
-    }catch(err){
-      return err
-    }
-  }
+
 
   render() {
     return (
@@ -142,7 +151,7 @@ class App extends Component {
         <Header isLogged={this.state.logged} searchUpdate={this.searchUpdate}/>
         <Switch>
           <Route exact path={routes.PROFILE} render={()=> <Profile currentUser={this.state.currentUser} isLogged={this.state.logged}/>} />
-          <Route exact path={'/edit/:id'} render={()=> <Edit currentUser={this.state.currentUser} update={this.update} delete={this.delete}/>}/>
+          <Route exact path={'/edit/:id'} render={()=> <Edit currentUser={this.state.currentUser} update={this.update} deleteUser={this.delUser}/>}/>
           <Route exact path={'/login'} render={()=><Login login={this.login} currentUser={this.state.currentUser} isLogged={this.state.logged}/>}/>
           <Route exact path={routes.FEED} render={()=> <Post pics={this.state.pics}/>} />
           <Route exact path={routes.REGISTER} render={()=> <Register currentUser={this.state.currentUser} register={this.register} isLogged={this.state.logged}/>}/>
@@ -153,4 +162,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default withRouter(App);

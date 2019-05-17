@@ -1,4 +1,5 @@
-import React , { Component} from 'react'
+import React , { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 
 class Edit extends Component {
@@ -32,7 +33,6 @@ class Edit extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     this.props.update(this.state)
-
   }
 
   render(){
@@ -48,7 +48,7 @@ class Edit extends Component {
           <input type='text' name='postPic' value={postPic} placeholder='Profile Picture' onChange={this.inputHandler}></input>
           <button type="submit">Submit</button>
         </form>
-        <button onClick={this.props.delete}>delete user</button>
+        <button onClick={this.props.deleteUser}>delete user</button>
       </div>
     )
   }
