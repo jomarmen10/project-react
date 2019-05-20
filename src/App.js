@@ -148,7 +148,7 @@ class App extends Component {
         searchPic: this.state.searchPic
       }
       const data = await fetch('/api/v1',{
-        method:'GET',
+        method:'POST',
         credentials: 'include',
         body: JSON.stringify(obj),
         headers:{
