@@ -31,13 +31,13 @@ class App extends Component {
     })
   }
 
-  apiHandler = (str) => {
-    if(!str){
-      return `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_KEY}&count=30`
-    } else {
-      return `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_KEY}&query=${this.state.searchPic}&per_page=30`
-    }
-  }
+  // apiHandler = (str) => {
+  //   if(!str){
+  //     return `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_KEY}&count=30`
+  //   } else {
+  //     return `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_KEY}&query=${this.state.searchPic}&per_page=30`
+  //   }
+  // }
 
   delUser = async () => {
     console.log('hello')
@@ -136,12 +136,30 @@ class App extends Component {
   }
 
   getPics = async() => {
-    try {
-      const data = await fetch(this.apiHandler(this.state.searchPic))
+    // try {
+    //   const data = await fetch(this.apiHandler(this.state.searchPic))
+    //   const pics = await data.json()
+    //   return pics.results ? pics.results : pics;
+    // }catch(err){
+    //   return err
+    // }
+    try{
+      const obj = {
+        searchPic: this.state.searchPic
+      }
+      const data = await fetch('/api/v1',{
+        method:'GET',
+        credentials: 'include',
+        body: JSON.stringify(obj),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      })
       const pics = await data.json()
+
       return pics.results ? pics.results : pics;
     }catch(err){
-      return err
+      console.log(err)
     }
   }
 
