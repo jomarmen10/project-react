@@ -6,6 +6,7 @@ class Post extends Component {
 
   render() {
     const { pics } = this.props
+    console.log(pics)
     return(
       <div>
         {(pics || []).map((p,i)=>
