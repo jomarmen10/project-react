@@ -8,7 +8,7 @@ class Post extends Component {
     const { pics } = this.props
     return(
       <div>
-        {pics.map((p,i)=>
+        {(pics || []).map((p,i)=>
           <article className="Post" ref="Post" key={i}>
             <header>
               <div className="Post-user">
