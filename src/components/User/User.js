@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
+import Edit from '../Edit/Edit'
+import { Link } from 'react-router-dom';
 
 class User extends Component {
+  state = {
+    current: null
+  }
+
+  componentDidMount(){
+    this.setState({
+      current: this.props.currentUser
+    })
+  }
 
   render(){
     console.log(this.props.currentUser)
+    console.log(this.state.current)
     return(
+
+
       <div>
-        userpage
-        {this.props.currentUser.firstName}
-        
+        {this.state.current.email}
       </div>
     )
   }

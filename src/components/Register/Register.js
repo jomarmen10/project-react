@@ -26,7 +26,7 @@ class Register extends Component {
     return(
       <div>
         {this.props.isLogged
-          ? <Redirect to={`/users/${this.props.currentUser._id}`}/>
+          ? <Redirect to={`/edit/${this.props.currentUser._id}`}/>
           :
           (
             <form onSubmit={this.submitHandler}>

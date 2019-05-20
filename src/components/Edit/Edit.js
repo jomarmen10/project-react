@@ -44,8 +44,8 @@ class Edit extends Component {
           <input type='text' name='lastName' value={lastName} placeholder="Last Name" onChange={this.inputHandler}></input>
           <input type='text' name='email' value={email} placeholder="Email" onChange={this.inputHandler}></input>
           <input type='password' name='password' value={password} placeholder='Password' onChange={this.inputHandler}></input>
-          <input type='text' name='profilePic' value={profilePic} placeholder='Profile Picture' onChange={this.inputHandler}></input>
-          <input type='text' name='postPic' value={postPic} placeholder='Profile Picture' onChange={this.inputHandler}></input>
+          <input type='text' name='profilePic' value={profilePic} placeholder='Profile Picture (URL)' onChange={this.inputHandler}></input>
+          <input type='text' name='postPic' value={postPic} placeholder='Upload photo(URL)' onChange={this.inputHandler}></input>
           <button type="submit">Submit</button>
         </form>
         <button onClick={this.props.deleteUser}>delete user</button>

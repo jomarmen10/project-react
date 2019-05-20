@@ -24,8 +24,8 @@ class Login extends Component {
       <div>
         {
           this.props.isLogged
-            ? <Redirect to={`/users/${this.props.currentUser._id}`}/>
-            :<form onSubmit={this.submitHandler}>
+            ? <Redirect to={`/users/${this.props.currentUser._id}`}/> // <Redirect to={'/user'} />
+            :<form onSubmit={this.submitHandler} style={{marginTop: '12rem'}}>
             <input type='text' name='email' value={this.state.email} placeholder='email' onChange={this.inputHandler}></input>
             <input type='password' name='password' value={this.state.password} placeholder='password' onChange={this.inputHandler}></input>
             <button type='Submit'>Login</button>

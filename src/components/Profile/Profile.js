@@ -37,7 +37,7 @@ class Profile extends Component {
         <div className='container'>
           <div className='profile'>
             <div className="profile-image">
-              {profile_image ? <img src={profile_image.large}></img> : null}
+              {profile_image ? <img src={profile_image.large}></img> : <img src='https://www.showflipper.com/blog/images/default.jpg'></img>}
             </div>
             <div className="profile-username">
               <h4>{username}</h4>
@@ -46,6 +46,7 @@ class Profile extends Component {
                   ? <Link to={`/edit/${this.props.currentUser._id}`} render={()=><Edit />}>EDIT</Link>
                   : null
               }
+
                     </div>
             <div className='profile-stats'>
               <ul>

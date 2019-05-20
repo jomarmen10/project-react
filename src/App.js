@@ -8,6 +8,8 @@ import Register from './components/Register/Register'
 import Login from './components/Login/Login'
 import Edit from './components/Edit/Edit'
 
+import User from './components/User/User' //test component only
+
 
 import * as routes from "./constant/routes"
 
@@ -23,11 +25,11 @@ class App extends Component {
     searchPic: ''
   }
 
-  // componentDidMount(){
-  //   this.getPics().then(res => {
-  //     return this.setState({pics: res})
-  //   })
-  // }
+  componentDidMount(){
+    this.getPics().then(res => {
+      return this.setState({pics: res})
+    })
+  }
 
   apiHandler = (str) => {
     if(!str){
@@ -147,14 +149,16 @@ class App extends Component {
 
   render() {
     return (
+
       <div>
         <Header isLogged={this.state.logged} searchUpdate={this.searchUpdate}/>
         <Switch>
+          <Route exact path={'/login'} render={()=><Login login={this.login} currentUser={this.state.currentUser} isLogged={this.state.logged}/>}/>
           <Route exact path={routes.PROFILE} render={()=> <Profile currentUser={this.state.currentUser} isLogged={this.state.logged}/>} />
           <Route exact path={'/edit/:id'} render={()=> <Edit currentUser={this.state.currentUser} update={this.update} deleteUser={this.delUser}/>}/>
-          <Route exact path={'/login'} render={()=><Login login={this.login} currentUser={this.state.currentUser} isLogged={this.state.logged}/>}/>
           <Route exact path={routes.FEED} render={()=> <Post pics={this.state.pics}/>} />
           <Route exact path={routes.REGISTER} render={()=> <Register currentUser={this.state.currentUser} register={this.register} isLogged={this.state.logged}/>}/>
+          <Route exact path={'/user'} render={()=><User currentUser={this.state.currentUser} isLogged={this.state.logged}/>} />
         </Switch>
       </div>
     );

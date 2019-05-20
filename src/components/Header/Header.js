@@ -30,24 +30,24 @@ class Header extends Component {
           </div>
           <div className="search-bar">
             <form onSubmit={this.submitHandler}>
-              <input type='text' placeholder='search' value={this.state.newSearch} name='newSearch' onChange={this.searchHandler}></input>
+              <input type='text' placeholder='search' value={this.state.newSearch} name='newSearch' onChange={this.searchHandler} autoComplete='off'></input>
             </form>
           </div>
-
-          {
-            this.props.isLogged
-              ?<div>
-                <NavLink to={routes.FEED}>FEED</NavLink> <br/>
-                <NavLink to={routes.LOGIN}>PROFILE</NavLink>
-              </div>
-              :
-              <div>
-                <NavLink to={routes.REGISTER}>REGISTER</NavLink> <br/>
-                <NavLink to={routes.LOGIN}>LOGIN</NavLink>
-              </div>
-          }
-
-
+          <div className='Nav-link'>
+            {
+              this.props.isLogged
+                ?<div>
+                  <NavLink to={routes.FEED}>FEED</NavLink> <br/>
+                  <NavLink to={routes.LOGIN}>PROFILE</NavLink> <br/>
+                  <a href='/login'>logout</a>
+                </div>
+                :
+                <div>
+                  <NavLink  to={routes.REGISTER}>REGISTER</NavLink> <br/>
+                  <NavLink to={routes.LOGIN}>LOGIN</NavLink>
+                </div>
+            }
+          </div>
         </div>
       </nav>
     )

@@ -31,6 +31,9 @@
 }
 input{
   display: inline-block;
-  margin-left: 150px;
+  margin-left: 15rem;
   font-size: large;
+}
+.Nav-link {
+ margin-left: 20rem;
 }
