@@ -16,6 +16,7 @@ class Header extends Component {
   }
 
   submitHandler = (e) => {
+    console.log('submitted')
     e.preventDefault();
     this.props.searchUpdate(this.state.newSearch)
   }
@@ -30,7 +31,7 @@ class Header extends Component {
           </div>
           <div className="search-bar">
             <form onSubmit={this.submitHandler}>
-              <input type='text' placeholder='search' value={this.state.newSearch} name='newSearch' onChange={this.searchHandler} autoComplete='off'></input>
+              <input type='text' placeholder='search' value={this.state.newSearch} name='newSearch' onChange={this.searchHandler} autoComplete='off'/>
             </form>
           </div>
           <div className='Nav-link'>

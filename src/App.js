@@ -26,6 +26,7 @@ class App extends Component {
   }
 
   componentDidMount(){
+    console.log('mounted')
     this.getPics().then(res => {
       return this.setState({pics: res})
     })
@@ -125,29 +126,43 @@ class App extends Component {
     }
   }
 
-  searchUpdate = async(val) => {
-    try{
-      await this.setState({searchPic: val})
-      const res = await this.getPics();
-      return this.setState({pics: res})
-    }catch(err){
-      return err
-    }
-  }
+  // searchUpdate = async(val) => {
+  //   try{
+  //     await this.setState({searchPic: val})
+  //     const res = await this.getPics();
+  //     return this.setState({pics: res})
+  //   }catch(err){
+  //     return err
+  //   }
+  // }
 
   getPics = async() => {
     // try {
-    //   const data = await fetch(this.apiHandler(this.state.searchPic))
+    //   console.log('getting pics')
+    //   const data = await fetch('/api/v1')
     //   const pics = await data.json()
     //   return pics.results ? pics.results : pics;
     // }catch(err){
     //   return err
     // }
     try{
+      console.log('getting pics')
+      const data = await fetch('/api/v1')
+      const pics = await data.json()
+
+      return pics.results ? pics.results.results : pics;
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  searchPics = async(str) =>{
+    try{
+      console.log("searching for pics")
       const obj = {
-        searchPic: this.state.searchPic
+        searchPic: str
       }
-      const data = await fetch('/api/v1',{
+      const pic = await fetch('/api/v1',{
         method:'POST',
         credentials: 'include',
         body: JSON.stringify(obj),
@@ -155,9 +170,10 @@ class App extends Component {
           'Content-Type': 'application/json'
         }
       })
-      const pics = await data.json()
-
-      return pics.results ? pics.results : pics;
+      const parsedPic = await pic.json()
+      this.setState({
+        pics: parsedPic.result.results
+      })
     }catch(err){
       console.log(err)
     }
@@ -169,7 +185,7 @@ class App extends Component {
     return (
 
       <div>
-        <Header isLogged={this.state.logged} searchUpdate={this.searchUpdate}/>
+        <Header isLogged={this.state.logged} searchUpdate={this.searchPics}/>
         <Switch>
           <Route exact path={'/login'} render={()=><Login login={this.login} currentUser={this.state.currentUser} isLogged={this.state.logged}/>}/>
           <Route exact path={routes.PROFILE} render={()=> <Profile currentUser={this.state.currentUser} isLogged={this.state.logged}/>} />

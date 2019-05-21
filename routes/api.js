@@ -4,14 +4,7 @@ const fetch = require('node-fetch')
 
 router.get('/', async(req, res) => {
   try{
-    const apiHandler = (str) => {
-      if(!str){
-        return `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_KEY}&count=30`
-      } else {
-        return `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_KEY}&query=${this.state.searchPic}&per_page=30`
-      }
-    }
-    const pictures = await fetch(apiHandler(req.body.searchPic))
+    const pictures = await fetch(`https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_KEY}&count=30`)
     const parsedPics = await pictures.json();
     console.log(parsedPics)
     res.json({
@@ -24,10 +17,25 @@ router.get('/', async(req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
-  return res.send({
-    body: req.body
-  });
+router.post('/', async(req, res) => {
+  try{
+  // const apiHandler = (str) => {
+  //   if(!str){
+  //     return `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_KEY}&count=30`
+  //   } else {
+  //     return `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_KEY}&query=${this.state.searchPic}&per_page=30`
+  //   }
+  // }
+    const pic = await fetch(`https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_KEY}&query=${req.body.searchPic}&per_page=30`)
+    const parsedPic = await pic.json()
+    res.json({
+      success:true,
+      result: parsedPic,
+      message: 'picture has been fetched!!'
+    })
+  }catch(err){
+    console.log(err)
+  }
 });
 
 router.put('/', (req, res) => {
