@@ -26,5 +26,4 @@ Preview: ![preview](https://raw.githubusercontent.com/jomarmen10/jomarmen10.gith
 ## Disclaimer
 * All credits goes to actuall owner of the picture. (Unsplash API)
 
-## Live Demo
-[PLAY GAME](https://instalkerr.herokuapp.com/)
+##[Live Demo](https://instalkerr.herokuapp.com/)
