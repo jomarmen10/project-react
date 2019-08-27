@@ -8,10 +8,13 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
+    "eslint-utils": "^1.4.2",
     "express": "~4.16.1",
     "express-session": "^1.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "lodash": "^4.17.15",
+    "lodash.template": "^4.5.0",
     "mongoose": "^5.5.8",
     "morgan": "~1.9.1",
     "node-fetch": "^2.6.0",
@@ -21,7 +24,7 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

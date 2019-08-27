@@ -47,7 +47,7 @@ class Profile extends Component {
                   : null
               }
 
-                    </div>
+            </div>
             <div className='profile-stats'>
               <ul>
                 <li>
@@ -64,7 +64,7 @@ class Profile extends Component {
           </div>
         </div>
 
-
+        
 
         <div className='container'>
           <div className='gallery'>

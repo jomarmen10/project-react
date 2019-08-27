@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   return res.json({data: 'Received a GET HTTP method users'});
 });
 
-router.post('/create', async(req, res) => {
+router.post('/create', (req, res) => {
  try {
    const user = await User.create(req.body)
    res.json({
