@@ -15,7 +15,7 @@
     "jade": "~1.11.0",
     "lodash": "^4.17.15",
     "lodash.template": "^4.5.0",
-    "mongoose": "^5.5.8",
+    "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
     "node-fetch": "^2.6.0",
     "react": "^16.8.6",
